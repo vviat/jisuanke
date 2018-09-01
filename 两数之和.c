@@ -1,33 +1,37 @@
 #include <stdio.h>
-int* get_two_sum(int *numbers, int length, int target) {
-	int *ans = (int *)malloc(sizeof(int) * 2);
-    int ind1, ind2;
-    ind1 = 0;
-    ind2 = length - 1;
-    while (ind1 < ind2) {
-        if (numbers[ind1] + numbers[ind2] == target) break;
-        if (numbers[ind1] + numbers[ind2] < target) {
-            ++ind1;
-        } else {
-            --ind2;
-        }
+#include <stdlib.h>
+int* two_sum(int *nums, int length, int target) {
+    int *ans = malloc(2 * sizeof(int));
+    int l = 0, r = length -1;
+    while(nums[l] + nums[r] != target){
+        if(nums[l] + nums[r] < target){
+            ++l;
+        } else if(nums[l] + nums[r] > target){
+            --r;
+        } else break;
     }
-    if (ind1 < ind2) {
-        ans[0] = ind1;
-        ans[1] = ind2;
-    }
+    ans[0] = l;
+    ans[1] = r;
     return ans;
 }
 int main() {
-	int n;
-	int v[100000];
-	scanf("%d", &n);
-	for (int i = 0; i < n; ++i) {
-		scanf("%d", &v[i]);
-	}
-	int x;
-	scanf("%d", &x);
-	int* ans = get_two_sum(v, n, x);
-	printf("%d %d\n", ans[0], ans[1]);
-	return 0;
+    int n, target;
+    scanf("%d %d", &n, &target);
+    int* num = (int*)malloc(n * sizeof(int));
+    int* a = (int*)malloc(n * sizeof(int));
+    for (int i = 0; i < n; ++i) {
+        scanf("%d", num + i);
+        a[i] = num[i];
+    }
+    int *x = two_sum(num, n, target);
+    int *p = two_sum(num, n, target);
+    if (p[0] == p[1]) {
+        printf("一个数只能用一次!\n");
+    } else {
+        printf("%d\n", a[p[0]] + a[p[1]]);
+    }
+    free(p);
+    free(num);
+    free(a);
+    return 0;
 }
